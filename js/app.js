@@ -4,15 +4,20 @@
 var todos = [
 	{ text: 'Eat', completed: true },
 	{ text: 'Sleep', completed: false },
-	{ text: 'Code', completed: true },
+	{ text: 'Code', completed: true }
 ]
 
-	new Vue({
+	var app = new Vue({
 		el:'#app',
 		data:{
 			title:'Todo List',
 			todos: todos,
 			text:''
+		},
+		computed:{
+			itemNumber: function(){
+				return this.todos.length;
+			}
 		},
 		methods:{
 			addItem: function(){
@@ -26,7 +31,6 @@ var todos = [
 				this.text=''
 			},
 			destroy: function(text){
-				var _that = this
 				var todoIndex
 				this.todos.find(function (todo,index) {
 					if (todo.text === text){
@@ -34,6 +38,14 @@ var todos = [
 					}
 				})
 				this.todos.splice(todoIndex,1)
+			},
+			handleClear: function(){
+				for (var i = todos.length-1 ; i>=0; i--){
+					if(todos[i].completed === true){
+						this.todos.splice(i,1)
+					}
+				}
+				
 			}
 		}
 	})
